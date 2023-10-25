@@ -126,5 +126,20 @@ void Setup4thAssignmentsEndpoints()
         worker.Forget(userId);
         return Results.Ok();
     });
+
+    app.MapGet("/api/stats/user/reports", () =>
+    {
+        var dailyAverages = new Dictionary<Guid, double>();
+        foreach (var userId in worker.Users.Keys)
+        {
+            if (worker.Users.TryGetValue(userId, out var user))
+            {
+                var average = detector.CalculateDailyAverageForUser(user);
+                dailyAverages.Add(userId, average);
+            }
+        }
+        return Results.Json(dailyAverages);
+    });
+
 }
 
