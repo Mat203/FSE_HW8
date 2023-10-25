@@ -7,7 +7,6 @@ public interface IDateTimeProvider
 
 public class DateTimeProvider : IDateTimeProvider
 {
-
     public DateTimeOffset GetCurrentTime()
     {
         return DateTimeOffset.UtcNow;
@@ -21,7 +20,7 @@ public interface IUserTransformer
 
 public class UserTransformer : IUserTransformer
 {
-    private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IDateTimeProvider _dateTimeProvider; 
     public UserTransformer(IDateTimeProvider dateTimeProvider)
     {
         _dateTimeProvider = dateTimeProvider;
