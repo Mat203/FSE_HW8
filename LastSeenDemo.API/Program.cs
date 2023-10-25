@@ -130,7 +130,7 @@ void Setup4thAssignmentsEndpoints()
     app.MapGet("/api/stats/user/reports", () =>
     {
         var dailyAverages = new Dictionary<Guid, double>();
-        var weeklyAverages = new Dictionary<Guid, double>(); 
+        var weeklyAverages = new Dictionary<Guid, double>();
         foreach (var userId in worker.Users.Keys)
         {
             if (worker.Users.TryGetValue(userId, out var user))
@@ -138,12 +138,16 @@ void Setup4thAssignmentsEndpoints()
                 var dailyAverage = detector.CalculateDailyAverageForUser(user);
                 dailyAverages.Add(userId, dailyAverage);
 
-                var weeklyAverage = detector.CalculateWeeklyAverageForUser(user); 
-                weeklyAverages.Add(userId, weeklyAverage); 
+                var weeklyAverage = detector.CalculateWeeklyAverageForUser(user);
+                weeklyAverages.Add(userId, weeklyAverage);
             }
         }
-        return Results.Json(new { DailyAverages = dailyAverages, WeeklyAverages = weeklyAverages }); 
+
+        var averageWeeklyAverage = detector.CalculateAverageWeeklyAverageForAllUsers(worker.Users);
+
+        return Results.Json(new { DailyAverages = dailyAverages, WeeklyAverages = weeklyAverages, AverageWeeklyAverage = averageWeeklyAverage });
     });
+
 
 
 }
